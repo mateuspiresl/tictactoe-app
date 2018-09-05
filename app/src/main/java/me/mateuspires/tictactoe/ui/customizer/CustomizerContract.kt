@@ -1,13 +1,15 @@
 package me.mateuspires.tictactoe.ui.customizer
 
-import io.reactivex.Single
+import io.reactivex.Observable
 import me.mateuspires.tictactoe.data.models.ImageSearch
 
 interface CustomizerContract {
 
     interface Presenter {
 
-        fun search(query: String): Single<ImageSearch.Result>
+        fun observeSearchResults(): Observable<ImageSearch.Result>
+
+        fun search(query: String)
 
         fun selectImage(image: ImageSearch.Item)
 

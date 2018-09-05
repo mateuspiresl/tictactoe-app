@@ -8,16 +8,17 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_customizer.*
-import kotlinx.android.synthetic.main.layout_game_status.*
 import me.mateuspires.tictactoe.R
 import me.mateuspires.tictactoe.data.models.ImageSearch
 import me.mateuspires.tictactoe.data.network.ImageSearchApiService
 import me.mateuspires.tictactoe.ui.customizer.CustomizerContract
 import me.mateuspires.tictactoe.ui.customizer.presenter.CustomizerPresenter
-import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 
@@ -30,6 +31,7 @@ class CustomizerActivity : AppCompatActivity(), CustomizerContract.View,
 
     private val imagesAdapter = ImagesAdapter(this,  this)
     private var presenter: CustomizerPresenter? = null
+    private var loading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +40,12 @@ class CustomizerActivity : AppCompatActivity(), CustomizerContract.View,
         val isX = intent.getBooleanExtra("is_x", true)
         presenter = CustomizerPresenter(this, isX, ImageSearchApiService.load())
 
+        presenter?.observeSearchResults()?.subscribe(
+                { updateImages(it.items) }, { Log.e(TAG, it.message) })
+
         val searchFieldSubject: PublishSubject<String> = PublishSubject.create()
         searchFieldSubject.debounce(100, TimeUnit.MILLISECONDS)
-                .onBackpressureLatest()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { search(it) }
 
         et_search.addTextChangedListener(object: TextWatcher {
@@ -81,13 +86,30 @@ class CustomizerActivity : AppCompatActivity(), CustomizerContract.View,
 
     private fun search(query: String) {
         Log.d(TAG, "Search $query")
-        presenter?.search(query)?.subscribe({ updateImages(it.items) }, { Log.e(TAG, it.message) })
+
+        setLoading(true)
+        presenter?.search(query)
     }
 
     private fun updateImages(images: Array<ImageSearch.Item>) {
         Log.d(TAG, "Update ${images.size}")
 
         imagesAdapter.update(images)
+        setLoading(false)
         rv_images.startLayoutAnimation()
+    }
+
+    private fun setLoading(loading: Boolean) {
+        if (this.loading != loading) {
+            this.loading = loading
+
+            if (loading) {
+                rv_images.visibility = View.INVISIBLE
+                pb_loading_spinner.visibility = View.VISIBLE
+            } else {
+                rv_images.visibility = View.VISIBLE
+                pb_loading_spinner.visibility = View.INVISIBLE
+            }
+        }
     }
 }

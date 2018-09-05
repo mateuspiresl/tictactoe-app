@@ -1,16 +1,18 @@
 package me.mateuspires.tictactoe.ui.main.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.SimpleItemAnimator
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import me.mateuspires.tictactoe.R
+import me.mateuspires.tictactoe.ui.customizer.view.CustomizerActivity
 import me.mateuspires.tictactoe.ui.main.BoardCell
 import me.mateuspires.tictactoe.ui.main.MainContract
 import me.mateuspires.tictactoe.ui.main.Status
 import me.mateuspires.tictactoe.ui.main.presenter.MainPresenter
-import android.support.v7.widget.SimpleItemAnimator
 
 class MainActivity : AppCompatActivity(), MainContract.View, BoardAdapter.OnCellClickListener {
 
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity(), MainContract.View, BoardAdapter.OnCell
         (rv_board.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         bt_start.setOnClickListener { presenter.startNewGame() }
+        bt_customize.setOnClickListener {
+            startActivity(Intent(this, CustomizerActivity::class.java))
+        }
     }
 
     override fun onStart() {

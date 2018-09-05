@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.customizer.view.CustomizerActivity">
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:gravity="center_vertical"
+        android:hint="Search for images..."
+        app:layout_constraintBottom_toTopOf="@+id/rv_images"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_images"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/rl_preview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_search" />
+
+    <RelativeLayout
+        android:id="@+id/rl_preview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_not_selected"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No image selected."
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_select"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#e6e6e6"
+        android:gravity="center"
+        android:text="Select"
+        app:layout_constraintBottom_toTopOf="@+id/bt_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rl_preview"
+        app:layout_constraintTop_toTopOf="@+id/rl_preview" />
+
+    <Button
+        android:id="@+id/bt_default"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#e6e6e6"
+        android:gravity="center"
+        android:text="Remove"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rl_preview"
+        app:layout_constraintTop_toBottomOf="@+id/bt_select"/>
+</android.support.constraint.ConstraintLayout>

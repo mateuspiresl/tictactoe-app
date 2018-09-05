@@ -13,7 +13,6 @@ import me.mateuspires.tictactoe.ui.main.MainContract
 import me.mateuspires.tictactoe.ui.main.Status
 import me.mateuspires.tictactoe.util.loadAnimation
 
-
 class BoardAdapter(
         private val context: Context,
         private val listener: OnCellClickListener

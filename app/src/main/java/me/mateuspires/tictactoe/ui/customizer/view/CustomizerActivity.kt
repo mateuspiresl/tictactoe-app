@@ -50,7 +50,7 @@ class CustomizerActivity : AppCompatActivity(), CustomizerContract.View,
         presenter?.getSearchResultsObservable()?.subscribe(
                 { updateImages(it.items) }, { Log.e(TAG, it.message) })
 
-        // Sets the listener for the search field with a debounce behavior
+        // Sets the listener for the search field with debounce behavior
         val searchFieldSubject: PublishSubject<String> = PublishSubject.create()
         searchFieldSubject.debounce(100, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -81,20 +81,27 @@ class CustomizerActivity : AppCompatActivity(), CustomizerContract.View,
                 presenter as PreviewHolder.PreviewHolderActionsListener)
         yHolder = PreviewHolder(Player.Y, tv_y_not_selected, tv_y_attach, ib_y_preview,
                 presenter as PreviewHolder.PreviewHolderActionsListener)
+
+        // Sets the players images to the holders
+        presenter?.getXImageItem()?.let{ attachImage(Player.X, it) }
+        presenter?.getYImageItem()?.let{ attachImage(Player.Y, it) }
     }
 
     override fun onImageSelect(image: ImageSearch.Item) {
-        Log.d(TAG, "Image click ${image.url}")
+        Log.d(TAG, "Image select ${image.url}")
         presenter?.selectImage(image)
         setAttachAvailable(true)
     }
 
     override fun onImageUnselect() {
+        Log.d(TAG, "Image unselect")
         presenter?.unselect()
         setAttachAvailable(false)
     }
 
     override fun onImageAttach(player: Player, image: ImageSearch.Item) {
+        Log.d(TAG, "Image attach ${player.name} ${image.url}")
+
         imagesAdapter.unselect()
         setAttachAvailable(false)
 
@@ -108,9 +115,21 @@ class CustomizerActivity : AppCompatActivity(), CustomizerContract.View,
     }
 
     override fun onImageDetach(player: Player) {
+        Log.d(TAG, "Image attach ${player.name}")
+
         when (player) {
             Player.X -> xHolder?.detach()
             Player.Y -> yHolder?.detach()
+        }
+    }
+
+    private fun attachImage(player: Player, image: ImageSearch.Item) {
+        val loader: RequestBuilder<Drawable> = Glide.with(this).load(image.url)
+                .apply(RequestOptions().centerCrop())
+
+        when (player) {
+            Player.X -> xHolder?.attach(loader)
+            Player.Y -> yHolder?.attach(loader)
         }
     }
 

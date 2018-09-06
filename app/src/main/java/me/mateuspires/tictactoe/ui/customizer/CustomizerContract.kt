@@ -8,6 +8,10 @@ interface CustomizerContract {
 
     interface Presenter {
 
+        fun getXImageItem(): ImageSearch.Item?
+
+        fun getYImageItem(): ImageSearch.Item?
+
         fun getSearchResultsObservable(): Observable<ImageSearch.Result>
 
         fun search(query: String)

@@ -25,7 +25,7 @@ class CustomizerPresenter(
 ): CustomizerContract.Presenter, PreviewHolder.PreviewHolderActionsListener {
 
     companion object {
-        const val TAG = "CustomizerPresenter"
+        const val TAG = "TTT.CustomizerPresenter"
     }
 
     private val searchResultsSubject: PublishSubject<ImageSearch.Result> = PublishSubject.create()
@@ -36,8 +36,30 @@ class CustomizerPresenter(
 
     init {
         val images = repository.load()
-        images.xUrl?.let { xImage = ImageSearch.Item(it, 100, 100) }
-        images.yUrl?.let { yImage = ImageSearch.Item(it, 100, 100) }
+
+        images.xUrl?.let { it ->
+            val image = ImageSearch.Item(it, 100, 100)
+            Log.d(TAG, "Image for X loaded ${image.url}")
+
+            xImage = image
+            view.onImageAttach(Player.X, image)
+        }
+
+        images.yUrl?.let {
+            val image = ImageSearch.Item(it, 100, 100)
+            Log.d(TAG, "Image for Y loaded ${image.url}")
+
+            yImage = image
+            view.onImageAttach(Player.Y, image)
+        }
+    }
+
+    override fun getXImageItem(): ImageSearch.Item? {
+        return xImage
+    }
+
+    override fun getYImageItem(): ImageSearch.Item? {
+        return yImage
     }
 
     override fun getSearchResultsObservable(): Observable<ImageSearch.Result> {

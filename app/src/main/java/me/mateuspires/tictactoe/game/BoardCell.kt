@@ -1,4 +1,4 @@
-package me.mateuspires.tictactoe.ui.main
+package me.mateuspires.tictactoe.game
 
 enum class BoardCell {
     EMPTY, X, O;

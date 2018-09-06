@@ -1,5 +1,8 @@
 package me.mateuspires.tictactoe.ui.main
 
+import me.mateuspires.tictactoe.game.BoardCell
+import me.mateuspires.tictactoe.game.Status
+
 interface MainContract {
 
     interface Presenter {

@@ -1,6 +1,6 @@
 package me.mateuspires.tictactoe.ui.main.presenter
 
-import me.mateuspires.tictactoe.ui.main.Game
+import me.mateuspires.tictactoe.game.Game
 import me.mateuspires.tictactoe.ui.main.MainContract
 
 class MainPresenter(private val view: MainContract.View) : MainContract.Presenter {

@@ -9,9 +9,9 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import me.mateuspires.tictactoe.R
 import me.mateuspires.tictactoe.ui.customizer.view.CustomizerActivity
-import me.mateuspires.tictactoe.ui.main.BoardCell
+import me.mateuspires.tictactoe.game.BoardCell
 import me.mateuspires.tictactoe.ui.main.MainContract
-import me.mateuspires.tictactoe.ui.main.Status
+import me.mateuspires.tictactoe.game.Status
 import me.mateuspires.tictactoe.ui.main.presenter.MainPresenter
 
 class MainActivity : AppCompatActivity(), MainContract.View, BoardAdapter.OnCellClickListener {

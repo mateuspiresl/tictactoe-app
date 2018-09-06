@@ -19,5 +19,7 @@ object ImageSearch {
 
             @SerializedName("thumbnailWidth")
             val width: Int
-    )
+    ) {
+        var selected: Boolean = false
+    }
 }

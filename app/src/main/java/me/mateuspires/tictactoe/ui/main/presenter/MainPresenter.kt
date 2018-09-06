@@ -1,12 +1,25 @@
 package me.mateuspires.tictactoe.ui.main.presenter
 
+import me.mateuspires.tictactoe.data.models.PlayersImages
+import me.mateuspires.tictactoe.data.persistence.PlayersImagesRepository
 import me.mateuspires.tictactoe.game.Game
 import me.mateuspires.tictactoe.ui.main.MainContract
 
-class MainPresenter(private val view: MainContract.View) : MainContract.Presenter {
+class MainPresenter(
+        private val view: MainContract.View,
+        private val repository: PlayersImagesRepository
+) : MainContract.Presenter {
 
     private val game: Game = Game()
     private var playing: Boolean = false
+
+    /**
+     * Returns the players images.
+     * @return The players images.
+     */
+    override fun getPlayersImages(): PlayersImages {
+        return repository.load()
+    }
 
     /**
      * Starts a new game.

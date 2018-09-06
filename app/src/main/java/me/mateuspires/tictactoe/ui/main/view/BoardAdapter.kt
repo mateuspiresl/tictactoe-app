@@ -5,16 +5,21 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.layout_board_cell.view.*
 import kotlinx.android.synthetic.main.layout_game_status.view.*
 import me.mateuspires.tictactoe.R
+import me.mateuspires.tictactoe.data.models.PlayersImages
 import me.mateuspires.tictactoe.game.BoardCell
-import me.mateuspires.tictactoe.ui.main.MainContract
 import me.mateuspires.tictactoe.game.Status
+import me.mateuspires.tictactoe.ui.main.MainContract
 import me.mateuspires.tictactoe.util.loadAnimation
 
 class BoardAdapter(
         private val context: Context,
+        private val playersImages: PlayersImages,
         private val listener: OnCellClickListener
 ) : RecyclerView.Adapter<BoardCellViewHolder>(), MainContract.BoardView {
 
@@ -42,8 +47,11 @@ class BoardAdapter(
 
                 @Suppress("NON_EXHAUSTIVE_WHEN")
                 when (cell) {
-                    BoardCell.X -> content.setImageResource(R.drawable.ic_cross_gray_24dp)
-                    BoardCell.O -> content.setImageResource(R.drawable.ic_circle_gray_24dp)
+                    BoardCell.X ->
+                        loadPlayerImage(content, playersImages.xUrl, R.drawable.ic_cross_gray_24dp)
+
+                    BoardCell.O ->
+                        loadPlayerImage(content, playersImages.yUrl, R.drawable.ic_circle_gray_24dp)
                 }
             }
 
@@ -94,6 +102,14 @@ class BoardAdapter(
                 this.board[index] = board[index]
                 notifyItemChanged(index + 1)
             }
+        }
+    }
+
+    private fun loadPlayerImage(view: ImageView, url: String?, drawable: Int) {
+        if (url == null) {
+            view.setImageResource(drawable)
+        } else {
+            Glide.with(context).load(url).apply(RequestOptions().centerCrop()).into(view)
         }
     }
 

@@ -1,11 +1,18 @@
 package me.mateuspires.tictactoe.ui.main
 
+import me.mateuspires.tictactoe.data.models.PlayersImages
 import me.mateuspires.tictactoe.game.BoardCell
 import me.mateuspires.tictactoe.game.Status
 
 interface MainContract {
 
     interface Presenter {
+
+        /**
+         * Returns the players images.
+         * @return The players images.
+         */
+        fun getPlayersImages(): PlayersImages
 
         /**
          * Starts a new game.
